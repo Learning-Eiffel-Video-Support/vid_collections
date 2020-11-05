@@ -62,12 +62,50 @@ feature -- Test routines
 						"execution/isolated",
 						"execution/serial"
 			typical_use: "[
-
+				When you need an x,y or row,column array structure.
 				]"
 		local
-			l_2d: ARRAY2 [INTEGER]
+			l_array: ARRAY2 [INTEGER]
+			l_str_array: ARRAY2 [STRING]
 		do
-			create l_2d.make_filled (0, 3, 5)
+			create l_array.make (3, 5)				-- Make with rows, columns, but uninitialized.
+			l_array.initialize (100)				-- Initialize cells with object values.
+													-- Demonstrate going across all cells.
+			assert_32 ("all_A", across l_array as ic all ic.item = 100 end)
+
+			create l_str_array.make_filled ("X", 3, 5)	-- Do both at once.
+			l_str_array.put ("ABC", 2, 4)				-- Replace content of a cell.
+														-- Access cell at (2,4).
+			assert_strings_equal ("at_2_4", "ABC", l_str_array [2, 4])
+		end
+
+	arrayn_demo_test
+		note
+			testing:  "covers/{ARRAYN}",
+						"execution/isolated",
+						"execution/serial"
+			typical_use: "[
+				Use this class for n-dimensional arrays. Be aware that it has a severe
+				computational cost overhead as you add dimensions.
+				]"
+			disclaimer: "[
+				This class is not a part of the typical ELKS Base library from Eiffel Software.
+				This class is included here for your reference and unrestricted use as you
+				may see fit to use it.
+				]"
+		local
+			l_array: ARRAYN [INTEGER]
+		do
+				-- A 10 x 10 x 10 3D array. Each axis is bounded by ten elements, 1 .. 10.
+			create l_array.make_n_based (<<[1, 10], [1, 10], [1, 10]>>)
+
+				-- A 10 x 10 x 10 filled with 101 in each cell
+			create l_array.make_n_based_filled (<<[1, 10], [1, 10], [1, 10]>>, 101)
+
+			assert_integers_equal ("has_101", 101, l_array.at (10, 2, 10))		-- direct access version
+			l_array.replace (199, <<10, 2, 10>>)
+			assert_integers_equal ("has_199", 199, l_array @ ([10, 2, 10])) 	-- aliased access version
+			assert_integers_equal ("has_199_item", 199, l_array [10, 2, 10])	-- another aliased access
 		end
 
 	arrayed_list_demo_test
