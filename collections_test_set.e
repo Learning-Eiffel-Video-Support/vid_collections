@@ -96,6 +96,7 @@ feature -- Test routines
 				This class is included here for your reference and unrestricted use as you
 				may see fit to use it.
 				]"
+			EIS: "name=video", "src=https://youtu.be/wUQKF0vYGuI"
 		local
 			l_array: ARRAYN [INTEGER]
 		do
