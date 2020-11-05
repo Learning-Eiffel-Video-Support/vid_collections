@@ -1,5 +1,24 @@
 ﻿note
 	description: "Convenience features for HASH_TABLEs"
+	explanation: "[
+		The basic Eiffel ELKS version of HASH_TABLE does not have any
+		convenience features for creating new lists. This class is here
+		as an example of how to provide useful convenience features.
+		
+		The most notably missing convenience features are those for creating
+		a new HASH_TABLE from a limited list of items. In one case, `from_pairs',
+		we want to control both the key and the value. In the other case, we
+		only want to control the value and relegate the key to a hash-code of
+		the item (e.g. we won't be looking up our item by its key).
+		]"
+	disclaimer: "[
+		The second case is rather odd. The better approach is to simply use a manifest array.
+		
+		For example: <<"FRED", "WILMA", "BARNEY", "BETTY">>. Using the notion
+		of HASH_TABLE_EXT.from_items (<<"FRED", "WILMA", "BARNEY", "BETTY">>) is
+		rather wasteful at the end of the day. So, this class is merely here for
+		demonstration.
+		]"
 
 class
 	HASH_TABLE_EXT [G, K -> detachable HASHABLE]
@@ -19,6 +38,7 @@ feature {NONE} -- Initialization
 
 	from_pairs (a_pairs: ARRAY [TUPLE [value: G; key: K]])
 			-- Make `from_pairs' of key:value items in `a_pairs'.
+			--	(keys may be of any type that is HASHABLE)
 		do
 			make (a_pairs.count)
 			across a_pairs as ic
@@ -35,6 +55,7 @@ feature {NONE} -- Initialization
 
 	from_items (a_items: ARRAY [G])
 			-- Make `from_items' in `a_items' using {INTEGER_32} hash keys.
+			-- 	(keys will be computed as a hash_code derived from each item)
 		do
 			make (a_items.count)
 			across
