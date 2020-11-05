@@ -65,6 +65,7 @@ feature -- Test routines
 			typical_use: "[
 				When you need an x,y or row,column array structure.
 				]"
+			EIS: "name=video", "src=https://youtu.be/gWLCjdrv-mY"
 		local
 			l_array: ARRAY2 [INTEGER]
 			l_str_array: ARRAY2 [STRING]
