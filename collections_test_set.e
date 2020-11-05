@@ -22,7 +22,8 @@ inherit
 
 feature -- Test routines
 
-	-- CONTAINER
+	-- Basic CONTAINER classes:
+	---------------------------------------------------------------------------------------------------
 	--	ARRAY [G -> ANY]								Simple arrays of G
 	--  ARRAY2 [G -> ANY]								2D arrays of G
 	--	ARRAYED_LIST [G -> ANY]							Arrays as lists of G
@@ -36,6 +37,9 @@ feature -- Test routines
 			testing:  "covers/{ARRAY}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+				If your list content is stable or immutable, then use ARRAY.
+				]"
 		local
 			l_array: ARRAY [ANY]
 			l_numbers: ARRAY [INTEGER]
@@ -46,9 +50,10 @@ feature -- Test routines
 			create l_numbers.make (1, 100) -- prebuilt for 100 items, that are presently un-filled.
 
 			create l_array.make_from_array (<<"THIS", "THAT">>) -- harder way
-			l_array := <<"THIS", "THAT">> -- easier way
+			l_array := <<"THIS", "THAT">> -- easier way, direct assignment to a manifest array.
+			create l_array.make_from_array (l_numbers) -- making from another array reference.
 
-			create l_array.make_filled ("my_default_string", 1, 100) -- array pre-filled with 100 string items.
+			create l_array.make_filled ("def_string", 1, 100) -- array pre-filled with 100 string items.
 		end
 
 	array2_demo_test
@@ -56,6 +61,9 @@ feature -- Test routines
 			testing:  "covers/{ARRAY2}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_2d: ARRAY2 [INTEGER]
 		do
@@ -67,6 +75,9 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_LIST}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_any_list: ARRAYED_LIST [ANY]
 			l_int_list: ARRAYED_LIST [INTEGER]
@@ -83,6 +94,9 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_STACK}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_stack: ARRAYED_STACK [STRING]
 		do
@@ -105,6 +119,9 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_QUEUE}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_queue: ARRAYED_QUEUE [STRING]
 		do
@@ -129,6 +146,9 @@ feature -- Test routines
 			testing:  "covers/{HASH_TABLE}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_hash: HASH_TABLE [STRING, INTEGER]
 				-- Extension classes created here to demonstrate convenience features
@@ -191,6 +211,9 @@ feature -- Test routines
 			testing:  "covers/{INTEGER_INTERVAL}",
 						"execution/isolated",
 						"execution/serial"
+			typical_use: "[
+
+				]"
 		local
 			l_range: INTEGER_INTERVAL
 		do
