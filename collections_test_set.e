@@ -40,6 +40,7 @@ feature -- Test routines
 			typical_use: "[
 				If your list content is stable or immutable, then use ARRAY.
 				]"
+			EIS: "name=video", "src=https://youtu.be/BP2FunNMtRM"
 		local
 			l_array: ARRAY [ANY]
 			l_numbers: ARRAY [INTEGER]
