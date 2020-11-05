@@ -118,7 +118,13 @@ feature -- Test routines
 						"execution/isolated",
 						"execution/serial"
 			typical_use: "[
-
+				The ARRAYED_LIST class is a common go-to workhorse in Eiffel code and
+				among Eiffel developers, but it comes with some caveats. Most notably
+				is the resizable nature of the array, which can be memory intensive for
+				allocation and garbage collection. The best-practice is to initialize
+				these arrays with enough memory to get their jobs done. Another trick
+				is to not throw arrays away, but to keep them in a cache for reuse as
+				needed. Caching of just about anything saves you on computational cycles.
 				]"
 		local
 			l_any_list: ARRAYED_LIST [ANY]
@@ -127,8 +133,23 @@ feature -- Test routines
 			create l_any_list.make (0) -- empty list with starting capacity of zero.
 			create l_any_list.make_from_array (<<"THIS", "THAT", "OTHER">>) -- very useful!
 
-			create l_int_list.make_filled (10) -- filled with 10 default integer items.
+			create l_int_list.make_filled (10) -- filled with 10 default integer items of zero.
 			create l_int_list.make_from_iterable (1 |..| 1_000) -- A thousand integer items defaulted to 0
+
+				-- For convenience, ARRAYED_LIST collections will grow by 50% (or so)
+				--	when items are `forced' onto the list beyond current capacity.
+				--	For very large list, this might be expensive in terms of memory
+				--	allocation and garbage collection.
+
+				-- All types of CONTAINER are ITERABLE, which means they will function
+				--	as-expected in across-loops in all forms. This gives you easy iteration!
+				--  In the example, l_int_list has 1_000 integers, which align perfectly with
+				-- 	the cursor_index as we iterate across the collection, so our test passes.
+			across l_int_list as ic_numbers loop
+				assert_integers_equal ("right_value", ic_numbers.cursor_index, ic_numbers.item)
+			end
+				-- We could write this test differently ...
+			assert_32 ("index_is_value", across l_int_list as ic all ic.cursor_index = ic.item end)
 		end
 
 	arrayed_stack_demo_test
