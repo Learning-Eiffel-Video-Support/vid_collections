@@ -26,6 +26,7 @@ feature -- Test routines
 	---------------------------------------------------------------------------------------------------
 	--	ARRAY [G -> ANY]								Simple arrays of G
 	--  ARRAY2 [G -> ANY]								2D arrays of G
+	--  ARRAYN [G -> ANY]								N-dimensional arrays of G
 	--	ARRAYED_LIST [G -> ANY]							Arrays as lists of G
 	--	ARRAYED_STACK [G -> ANY]						Arrays as stacks of G
 	--  ARRAYED_QUEUE [G -> ANY]						Arrays as queues of G
