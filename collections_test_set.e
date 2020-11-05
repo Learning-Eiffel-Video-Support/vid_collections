@@ -25,8 +25,19 @@ feature -- Test routines
 			testing:  "covers/{ARRAY}",
 						"execution/isolated",
 						"execution/serial"
+		local
+			l_array: ARRAY [ANY]
+			l_numbers: ARRAY [INTEGER]
 		do
+			create l_array.make_empty -- noisy or wordy way
+			l_array := <<>> -- less noisy, but harder to understand for some
 
+			create l_numbers.make (1, 100) -- prebuilt for 100 items, that are presently un-filled.
+
+			create l_array.make_from_array (<<"THIS", "THAT">>) -- harder way
+			l_array := <<"THIS", "THAT">> -- easier way
+
+			create l_array.make_filled ("my_default_string", 1, 100) -- array pre-filled with 100 string items.
 		end
 
 	arrayed_list_demo_test
@@ -34,8 +45,15 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_LIST}",
 						"execution/isolated",
 						"execution/serial"
+		local
+			l_any_list: ARRAYED_LIST [ANY]
+			l_int_list: ARRAYED_LIST [INTEGER]
 		do
+			create l_any_list.make (0) -- empty list with starting capacity of zero.
+			create l_any_list.make_from_array (<<"THIS", "THAT", "OTHER">>) -- very useful!
 
+			create l_int_list.make_filled (10) -- filled with 10 default integer items.
+			create l_int_list.make_from_iterable (1 |..| 1_000) -- A thousand integer items defaulted to 0
 		end
 
 	arrayed_stack_demo_test
@@ -43,8 +61,21 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_STACK}",
 						"execution/isolated",
 						"execution/serial"
+		local
+			l_stack: ARRAYED_STACK [STRING]
 		do
+			create l_stack.make (10)
+			create l_stack.make_from_iterable (<<"THIS", "THAT", "OTHER">>)
+			assert_32 ("last_other", l_stack.last.same_string ("OTHER"))
+			assert_32 ("first_this", l_stack.first.same_string ("THIS"))
 
+			l_stack.remove -- remove "top" item (e.g. OTHER)
+			assert_integers_equal ("two", 2, l_stack.count)
+			assert_strings_equal ("top_is_now_that", "THAT", l_stack.last)
+
+			l_stack.put ("ANOTHER")
+			assert_strings_equal ("top_is_now_another", "ANOTHER", l_stack.last)
+			assert_integers_equal ("three", 3, l_stack.count)
 		end
 
 	arrayed_queue_demo_test
