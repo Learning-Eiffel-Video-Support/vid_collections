@@ -23,7 +23,7 @@
 
 	EiS: "name=other_demos", "src=https://github.com/Learning-Eiffel-Video-Support"
 
-	EIS: "name=video_demo", "src="
+	EIS: "name=video_demo", "src=https://youtube.com"
 	EIS: "name=learning_eiffel_channel", "src=https://www.youtube.com/playlist?list=PLf9JgTngKbj417KYiyb4iv88GYAlhN7FX"
 
 class
