@@ -169,8 +169,31 @@ feature -- Test routines
 			testing:  "covers/{INTEGER_INTERVAL}",
 						"execution/isolated",
 						"execution/serial"
+		local
+			l_range: INTEGER_INTERVAL
 		do
+				-- range of numbers 1 to 100, inclusive
+			across 1 |..| 100 as ic loop
+				assert_integers_equal ("same_as_index", ic.item, ic.cursor_index)
+			end
 
+				-- different range - noodle this out ...
+				-- the range is -100 to -1, inclusive
+			across -100 |..| -1 as ic loop
+				assert_integers_equal ("abs_of_index", ic.item.abs, 101 - ic.cursor_index)
+			end
+
+				-- Just like above, but without using a manifest range.
+			l_range := 1 |..| 100 -- using a manifest
+			create l_range.make (1, 100) -- same thing
+			across l_range as ic loop
+				assert_integers_equal ("same_as_index", ic.item, ic.cursor_index)
+			end
+
+				-- This one will require your noodle as well!
+			across l_range.new_cursor.reversed as ic loop -- turn the set around the othe way (100 to 1)
+				assert_integers_equal ("reversed", 101 - ic.item, ic.cursor_index)
+			end
 		end
 
 end
