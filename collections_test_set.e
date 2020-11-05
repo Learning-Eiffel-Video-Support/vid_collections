@@ -23,12 +23,13 @@ inherit
 feature -- Test routines
 
 	-- CONTAINER
-	--	ARRAY
-	--	ARRAYED_LIST
-	--	ARRAYED_STACK
-	--  ARRAYED_QUEUE
-	-- 	HASH_TABLE
-	--	INTEGER_INTERVAL
+	--	ARRAY [G -> ANY]								Simple arrays of G
+	--  ARRAY2 [G -> ANY]								2D arrays of G
+	--	ARRAYED_LIST [G -> ANY]							Arrays as lists of G
+	--	ARRAYED_STACK [G -> ANY]						Arrays as stacks of G
+	--  ARRAYED_QUEUE [G -> ANY]						Arrays as queues of G
+	-- 	HASH_TABLE [G -> ANY, K -> detachable HASHABLE]	Arrays as hash-maps (key:value) or (G, K)
+	--	INTEGER_INTERVAL								Arrays of contiguous integer ranges (INTEGERs)
 
 	array_demo_test
 		note
@@ -48,6 +49,17 @@ feature -- Test routines
 			l_array := <<"THIS", "THAT">> -- easier way
 
 			create l_array.make_filled ("my_default_string", 1, 100) -- array pre-filled with 100 string items.
+		end
+
+	array2_demo_test
+		note
+			testing:  "covers/{ARRAY2}",
+						"execution/isolated",
+						"execution/serial"
+		local
+			l_2d: ARRAY2 [INTEGER]
+		do
+			create l_2d.make_filled (0, 3, 5)
 		end
 
 	arrayed_list_demo_test
