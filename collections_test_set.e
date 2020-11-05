@@ -83,8 +83,21 @@ feature -- Test routines
 			testing:  "covers/{ARRAYED_QUEUE}",
 						"execution/isolated",
 						"execution/serial"
+		local
+			l_queue: ARRAYED_QUEUE [STRING]
 		do
+			create l_queue.make (3)
+			l_queue.put ("THIS")
+			l_queue.put ("THAT")
+			l_queue.put ("OTHER")
 
+			assert_strings_equal ("first_in_line_this", "THIS", l_queue.item)
+			l_queue.remove
+			assert_strings_equal ("next_in_line_that", "THAT", l_queue.item)
+			l_queue.remove
+			assert_strings_equal ("last_in_line_other", "OTHER", l_queue.item)
+			l_queue.remove
+			assert_32 ("line_empty", l_queue.is_empty)
 		end
 
 	hash_table_demo_test
