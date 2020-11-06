@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Tests demonstrating various Eiffel collections ({CONTAINER}).
 	]"
@@ -245,7 +245,28 @@ feature -- Test routines
 						"execution/isolated",
 						"execution/serial"
 			typical_use: "[
-
+				A hash table is a collection of key-value pairs, where the keys
+				are unique hashes. Think of a hash as a mostly-unique computed 
+				signature of a block of data (e.g. string of characters). 
+				For example: A string can be reduced to a hash (see {STRING}.hash_code).
+				
+				Hash tables are also referred to as maps because they map keys
+				to values in some structure--in this case, a table or tabular form.
+				]"
+			hash_collisions: "[
+				The probability of collision when using 32-bit hash values. 
+				It’s worth noting that a 50% chance of collision occurs when 
+				the number of hashes is 77,163. Also note that the graph takes 
+				the same S-curved shape for any value of N. As the number of
+				hashes rises above 77,163, there is an increasing probability
+				of a hash collision.
+				
+				One method for resolving collisions looks into the hash table 
+				and tries to find another open slot to hold the item that 
+				caused the collision. A simple way to do this is to start 
+				at the original hash value position and then move in a 
+				sequential manner through the slots until we encounter the 
+				first slot that is empty.
 				]"
 		local
 			l_hash: HASH_TABLE [STRING, INTEGER]
@@ -257,51 +278,40 @@ feature -- Test routines
 
 			l_array: ARRAY [STRING]
 		do
-				-- This ends up looking noisy simply to create a list.
+				-- Putting in items one-at-a-time becaue our dispenser of
+				--	items gives them to us one-at-a-time!
 			create l_hash.make (4)
+			assert_32 ("found_FRED", attached l_hash [10]) -- Test before to see if 10 key is in table?
 			l_hash.put ("FRED", 10)
 			l_hash.put ("WILMA", 20)
 			l_hash.put ("BARNEY", 30)
 			l_hash.put ("BETTY", 40)
 
-				-- This is much more concise!
+				-- Putting items in as groups of key:value pairs!
 			create l_hash_ext.from_pairs (<<["FRED", 10], ["WILMA", 20],
 											["BARNEY", 30], ["BETTY", 40]>>)
 
 				-- If BARNEY has an actual "key", then we wil find HASH_TABLE_EXT.from_pairs useful.
-			check has_barney: attached l_hash_ext.item (30) as al_item then
-				assert_strings_equal ("found_barney_at_30", "BARNEY", al_item)
-			end
+			assert_32 ("has_BARNEY_on_30", attached l_hash_ext [30])
 
-				-- If we don't have specific keys, then these are okay
+				-- If we don't have specific keys, then these will do nicely.
 			create l_hash_ext.from_items (<<"FRED", "WILMA", "BARNEY", "BETTY">>)
 			create l_set_ext.from_items (<<"FRED", "WILMA", "BARNEY", "BETTY">>)
 
-			assert_32 ("not_extendible", not l_set_ext.extendible)
-
-				-- BUT--they are not really needed because we have manifest arrays.
-			l_array := <<"FRED", "WILMA", "BARNEY", "BETTY">> -- The best solution!
-			assert_strings_equal ("found_barney_at_3", "BARNEY", l_array [3])
+				-- Now, ask, does `l_hash_ext' table have "FRED"?
+			assert_32 ("has_FRED_hash_code", attached l_hash_ext [("FRED").hash_code])
 
 				-- And if we wanted to have keys of various types, we can do that too!
 			create l_mixed_keys.from_pairs (<<["FRED", "YABBA"], ["WILMA", 200],
 												["BARNEY", 501.3], ["BETTY", True]>>)
 
-			check has_FRED: attached l_mixed_keys.item ("YABBA") as al_item then
-				assert_strings_equal ("found_FRED", "FRED", al_item)
-			end
-
-			check has_WILMA: attached l_mixed_keys.item (200) as al_item then
-				assert_strings_equal ("found_WILMA", "WILMA", al_item)
-			end
-
-			check has_BARNEY: attached l_mixed_keys.item (501.3) as al_item then
-				assert_strings_equal ("found_BARNEY", "BARNEY", al_item)
-			end
-
-			check has_BETTY: attached l_mixed_keys.item (True) as al_item then
-				assert_strings_equal ("found_BETTY", "BETTY", al_item)
-			end
+				-- Now, we can do mixed-key-type queries!
+				--	Why? Because HASH_TABLE_EXT [STRING, HASHABLE] polymorphically
+				--			only requires HASHABLE keys!
+			assert_32 ("has_FRED_on_YABBA", attached l_mixed_keys ["YABBA"])
+			assert_32 ("has_WILMA_on_200", attached l_mixed_keys [200])
+			assert_32 ("has_BARNEY_on_501_3", attached l_mixed_keys [501.3])
+			assert_32 ("has_BETTY_on_True", attached l_mixed_keys [True])
 		end
 
 	integer_interval_demo_test
