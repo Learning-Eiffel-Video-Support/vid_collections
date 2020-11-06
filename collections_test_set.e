@@ -268,6 +268,8 @@ feature -- Test routines
 				sequential manner through the slots until we encounter the 
 				first slot that is empty.
 				]"
+			EIS: "name=video", "src=www.youtube.com"
+			EIS: "name=png", "src=file:///collision_graph.png"
 		local
 			l_hash: HASH_TABLE [STRING, INTEGER]
 				-- Extension classes created here to demonstrate convenience features
@@ -281,7 +283,7 @@ feature -- Test routines
 				-- Putting in items one-at-a-time becaue our dispenser of
 				--	items gives them to us one-at-a-time!
 			create l_hash.make (4)
-			assert_32 ("found_FRED", attached l_hash [10]) -- Test before to see if 10 key is in table?
+			assert_32 ("not_found_FRED", not attached l_hash [10]) -- Test before to see if 10 key is in table?
 			l_hash.put ("FRED", 10)
 			l_hash.put ("WILMA", 20)
 			l_hash.put ("BARNEY", 30)
