@@ -126,6 +126,7 @@ feature -- Test routines
 				is to not throw arrays away, but to keep them in a cache for reuse as
 				needed. Caching of just about anything saves you on computational cycles.
 				]"
+			EIS: "name=video", "src=https://youtu.be/n7NrUaIvccs"
 		local
 			l_any_list: ARRAYED_LIST [ANY]
 			l_int_list: ARRAYED_LIST [INTEGER]
@@ -163,7 +164,7 @@ feature -- Test routines
 		local
 			l_stack: ARRAYED_STACK [STRING]
 		do
-			create l_stack.make (10)
+			create l_stack.make (3)
 			create l_stack.make_from_iterable (<<"THIS", "THAT", "OTHER">>)
 			assert_32 ("last_other", l_stack.last.same_string ("OTHER"))
 			assert_32 ("first_this", l_stack.first.same_string ("THIS"))
