@@ -159,7 +159,16 @@ feature -- Test routines
 						"execution/isolated",
 						"execution/serial"
 			typical_use: "[
-
+				This class is a LIFO (last-in first-out) stack. It is similar
+				in operation to a stacked plate dispenser in a restuarant,
+				plates that go on to the stack are pushed down and the last
+				plate placed on the stack is the first one off of the stack.
+				
+				Use this form of array when your need if for a LIFO stack.
+				
+				Examples: undo\redo operation in word processors, Expression 
+				evaluation and syntax parsing, many virtual machines like 
+				JVM are stack oriented.
 				]"
 		local
 			l_stack: ARRAYED_STACK [STRING]
@@ -184,10 +193,22 @@ feature -- Test routines
 						"execution/isolated",
 						"execution/serial"
 			typical_use: "[
-
+				A queue is a FIFO (first-in first-out) mechanism. It is generally
+				used as a buffering mechanism, where items are arriving from a
+				source and waiting, in-order, to be processed out of the queue.
 				]"
+			definitions: "[
+				Heap: A heap is a useful data structure when it is necessary to repeatedly 
+						remove the object with the highest (or lowest) priority.
+				]"
+			EIS: "name=heap", "src=https://en.wikipedia.org/wiki/Heap_(data_structure)"
 		local
 			l_queue: ARRAYED_QUEUE [STRING]
+				-- other queues available
+			l_bounded: BOUNDED_QUEUE [ANY] -- FIFO, bounded physical size
+			l_heap_priority: HEAP_PRIORITY_QUEUE [COMPARABLE] -- sorted queue implemented as HEAP
+			l_linked_priority: LINKED_PRIORITY_QUEUE [COMPARABLE] -- Priority queues implemented as sorted lists
+			l_linked: LINKED_QUEUE [ANY] -- Unbounded queues implemented as linked lists
 		do
 			create l_queue.make (3)
 			l_queue.put ("THIS")
