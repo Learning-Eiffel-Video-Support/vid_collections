@@ -268,7 +268,7 @@ feature -- Test routines
 				sequential manner through the slots until we encounter the 
 				first slot that is empty.
 				]"
-			EIS: "name=video", "src=www.youtube.com"
+			EIS: "name=video", "src=https://youtu.be/-LEMd3hXmV4"
 			EIS: "name=png", "src=file:///collision_graph.png"
 			EIS: "name=collisions", "src=https://preshing.com/20110504/hash-collision-probabilities/"
 		local
