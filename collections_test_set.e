@@ -130,6 +130,10 @@ feature -- Test routines
 		local
 			l_any_list: ARRAYED_LIST [ANY]
 			l_int_list: ARRAYED_LIST [INTEGER]
+				-- Other lists: DYNAMIC
+			l_linked_list: LINKED_LIST [ANY] -- Sequential, one-way linked lists.
+			l_two_way_list: TWO_WAY_LIST [ANY] -- Sequential, two-way linked lists.
+			l_sorted_two_way: SORTED_TWO_WAY_LIST [COMPARABLE] -- Two-way lists, kept sorted.
 		do
 			create l_any_list.make (0) -- empty list with starting capacity of zero.
 			create l_any_list.make_from_array (<<"THIS", "THAT", "OTHER">>) -- very useful!
@@ -215,13 +219,22 @@ feature -- Test routines
 			l_queue.put ("THAT")
 			l_queue.put ("OTHER")
 
+				-- Interesting questions (queries) about our queue
+			assert_32 ("readable", l_queue.readable) -- can we read from our queue? yes (it has items)
+			assert_32 ("writable", l_queue.writable) -- Is there a current item that may be modified?
+			assert_32 ("not_prunable", not l_queue.prunable) -- no, we cannot prune our queue.
+			assert_32 ("full", l_queue.full) -- we did make (3) and we put 3 items, so, yes, full
+			assert_32 ("extendible", l_queue.extendible) -- May items be added? (Answer: yes.)
+
 			assert_strings_equal ("first_in_line_this", "THIS", l_queue.item)
 			l_queue.remove
 			assert_strings_equal ("next_in_line_that", "THAT", l_queue.item)
 			l_queue.remove
 			assert_strings_equal ("last_in_line_other", "OTHER", l_queue.item)
 			l_queue.remove
+				-- Now, check for `is_empty', or the more appropriate question `readable?'
 			assert_32 ("line_empty", l_queue.is_empty)
+			assert_32 ("is_empty_implies_not_readable", not l_queue.readable)
 		end
 
 	hash_table_demo_test
