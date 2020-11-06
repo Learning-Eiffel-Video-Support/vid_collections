@@ -270,6 +270,7 @@ feature -- Test routines
 				]"
 			EIS: "name=video", "src=www.youtube.com"
 			EIS: "name=png", "src=file:///collision_graph.png"
+			EIS: "name=collisions", "src=https://preshing.com/20110504/hash-collision-probabilities/"
 		local
 			l_hash: HASH_TABLE [STRING, INTEGER]
 				-- Extension classes created here to demonstrate convenience features
